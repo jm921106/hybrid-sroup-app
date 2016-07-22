@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include nav/header.ejs %>
+</head>
+
+<body>
+
+    <% include nav/nav.ejs %>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-3">
+                   <p class="lead">Group Name</p>
+            <div class="list-group">
+                <a href="#" class="list-group-item active">setting1</a>
+                <a href="#" class="list-group-item">setting2</a>
+                <a href="#" class="list-group-item">setting3</a>
+            </div>
+        </div>
+
+            <!--  contents  -->
+            <div class="col-md-9">
+
+                <h1>signup_page</h1>
+                <h3><%= test%></h3>
+                <h1>signup_page [ email | pw | name ]</h1>
+                <p style="color: red;">issue - email send , email을 확인하는 절차</p>
+
+                <form method="post" action="/signup">
+                    <label for="email"></label>
+                    <input type="email" id="email" name="u_email" placeholder="input email..." >
+                    <label for="pw"></label>
+                    <input type="password" id="pw" name="u_pw" placeholder="input pw..." >
+                    <label for="name"></label>
+                    <input type="text" id="name" name="u_name" placeholder="input name..." >
+                    <input type="submit" value="sign up test" >
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <% include nav/footer.ejs %>
+</body>
+
+</html>

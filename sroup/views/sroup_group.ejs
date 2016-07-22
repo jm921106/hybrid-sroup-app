@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include nav/header.ejs %>
+</head>
+
+<body>
+
+    <% include nav/nav.ejs %>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-3">
+            <p class="lead">Group Name</p>
+            <div class="list-group">
+                <a href="#" class="list-group-item active">My Sroup</a>
+                <a href="#" class="list-group-item">Sroup Search</a>
+                <a href="#" class="list-group-item">Sroup Add</a>
+            </div>
+        </div>
+
+            <!--  contents  -->
+            <div class="col-md-9">
+
+                <h1><%= test%></h1>
+                <a href="/group_add"></a>
+                <form method="post" action="/group_add">
+                    <input type="text" name="g_admin" placeholder="u_email">
+                    <label for="name">
+                        <input type="text" id="name" name="g_name" placeholder="input g_name...">
+                    </label>
+                    <label for="type">
+                        <select id="type" name="g_type">
+                            <option>국</option>
+                            <option>영</option>
+                            <option>수</option>
+                        </select>
+                    </label>
+                </form>
+                <a href="/group_search"></a>
+
+                <a href="/group_delete"></a>
+
+
+                <!-- Page Header -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Page Heading
+                            <small>Secondary Text</small>
+                        </h1>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <!-- Projects Row -->
+                <div class="row">
+                    <div class="col-md-4 portfolio-item">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                        </a>
+                        <h3>
+                            <a href="#">Project Name</a>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+                    </div>
+                    <div class="col-md-4 portfolio-item">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                        </a>
+                        <h3>
+                            <a href="#">Project Name</a>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+                    </div>
+                    <div class="col-md-4 portfolio-item">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                        </a>
+                        <h3>
+                            <a href="#">Project Name</a>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <!-- Projects Row -->
+                <div class="row">
+                    <div class="col-md-4 portfolio-item">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                        </a>
+                        <h3>
+                            <a href="#">Project Name</a>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+                    </div>
+                    <div class="col-md-4 portfolio-item">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                        </a>
+                        <h3>
+                            <a href="#">Project Name</a>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+                    </div>
+                    <div class="col-md-4 portfolio-item">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                        </a>
+                        <h3>
+                            <a href="#">Project Name</a>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+                    </div>
+                </div>
+
+                <!-- Projects Row -->
+                <div class="row">
+                    <div class="col-md-4 portfolio-item">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                        </a>
+                        <h3>
+                            <a href="#">Project Name</a>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+                    </div>
+                    <div class="col-md-4 portfolio-item">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                        </a>
+                        <h3>
+                            <a href="#">Project Name</a>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+                    </div>
+                    <div class="col-md-4 portfolio-item">
+                        <a href="#">
+                            <img class="img-responsive" src="http://placehold.it/700x400" alt="">
+                        </a>
+                        <h3>
+                            <a href="#">Project Name</a>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <hr>
+
+                <!-- Pagination -->
+                <div class="row text-center">
+                    <div class="col-lg-12">
+                        <ul class="pagination">
+                            <li>
+                                <a href="#">&laquo;</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">1</a>
+                            </li>
+                            <li>
+                                <a href="#">2</a>
+                            </li>
+                            <li>
+                                <a href="#">3</a>
+                            </li>
+                            <li>
+                                <a href="#">4</a>
+                            </li>
+                            <li>
+                                <a href="#">5</a>
+                            </li>
+                            <li>
+                                <a href="#">&raquo;</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <% include nav/footer.ejs %>
+</body>
+
+</html>

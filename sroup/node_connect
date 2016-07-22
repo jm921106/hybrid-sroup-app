@@ -1,0 +1,107 @@
+http 모듈을 사용한 웹 서버
+
+[server.js]
+var http = require('http');
+http.createServer(function(req, res) {
+    res.writeHead(200, {'Content-type':'text/plain'});
+    res.end('Hello Node World');
+}).listen(3000);
+
+console.log('server running at http://localhost:3000/');
+
+>node server
+
+[connect module]
+커넥트는 더욱 모듈화된 접근 방식으로 요청을 가로채는 지원 모듈
+커넥트는 미들웨어라는 모듈화된 구성 요소를 사용해 애플리케이션 논리를
+미리 정의된 HTTP 요청 시나리오에 간단히 등록
+
+커넥트 애플리케이션은 dispatcher 객체를 사용,
+dispatcher객체는 서버가 수신하는 각 http 요청을 처리, 순차적인 방식으로 미들웨어 수행 순서를 결정
+
+[server.js]
+var connect = require('connect');
+var app = connect();
+app.listen(3000);
+console.log('server running on at http://localhost:3000/');
+
+[connect middleware]
+커넥트 미들웨어는 자바 스크립트 함수에 불과하다
+각 미들웨어 함수는 다음 세 인수로 정의
+1req - http 요청 정보를 담는 객체
+2res - http 응답 정보를 담는 객체, 응답 속성을 설정
+3next - 커넥트 미들웨어의 순서있는 집합에 정의된 다음 미들웨어 함수
+
+app.use() 메소드를 사용해 커넥트 애플리케이션에 이를 등록
+
+[server.js]
+var connect = require('connect');
+var app = connect();
+
+var helloWorld = function(req, res, next) {
+    res.setHeader('Content-type', 'text/plain');
+    res.end('Hello World');
+};
+app.use(helloWorld);
+
+app.listen(3000);
+console.log('server running on at http://localhost:3000/');
+
+>node server
+
+[connect 미들웨어의 순서]
+각 미들웨어 함수에서 다음 미들웨어 함수를 호출할지 아님 현재 미들웨어 함수를 중단할지 결정
+next를 통해 다음 메소드로 넘어감
+더 이상 실행할 미들웨어 함수가 없거나 아니면 다음 미들웨어 함수가 호출되지 않을 때까지 next인수를 사용
+FIFO first in first out 순서로 실행
+
+[server.js]
+var connect = require('connect');
+var app = connect();
+
+var logger = function(req, res, next) {
+    console.log(req.method, req.url);
+    next();
+};
+
+var helloWorld = function(req, res, next) {
+    res.setHeader('Content-type', 'text/plain');
+    res.end('Hello World'); //next가 없으면 마무리
+};
+
+app.use(logger);
+app.use(helloWorld);
+
+app.listen(3000);
+console.log('server running on at http://localhost:3000/');
+
+>node server
+
+[커넥트 미들웨어 마운트]
+[server.js]
+var connect = require('connect');
+var app = connect();
+
+var logger = function(req, res, next) {
+    console.log(req.method, req.url);
+    next();
+};
+
+var helloWorld = function(req, res, next) {
+    res.setHeader('Content-type', 'text/plain');
+    res.end('Hello World'); //next가 없으면 마무리
+};
+
+var goodbyeWorld = function(req, res, next) {
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Goodbye World')
+};
+
+app.use(logger);
+app.use('/hello', helloWorld);
+app.use('/goodbye', goodbyeWorld);
+
+app.listen(3000);
+console.log('server running on at http://localhost:3000/');
+
+>node server

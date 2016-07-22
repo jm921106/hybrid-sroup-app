@@ -1,0 +1,29 @@
+require()
+
+exports - 이 객체는 각 모듈에 포함, 모듈이 올라올때 코드 조각을 외부에 공개
+
+module - 이 객체는 원래 모듈에 대한 메타 데이터 정보를 제공하기 위해 사용
+
+====================================================================================
+
+[hello.js]
+var message = 'Hello';
+exports.sayHello = function() {
+    console.log(message);
+}
+
+[server.js]
+var hello = require('./hello');
+hello.sayHello();
+
+====================================================================================
+
+[hello.js]
+module.exports = function() {
+    var message = 'Hello';
+    console.log(message);
+}
+
+[server.js]
+var hello = require('./hello');
+hello();

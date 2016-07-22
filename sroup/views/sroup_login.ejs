@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include nav/header.ejs %>
+</head>
+
+<body>
+
+    <% include nav/nav.ejs %>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-3">
+                   <p class="lead">Group Name</p>
+            <div class="list-group">
+                <a href="#" class="list-group-item active">setting1</a>
+                <a href="#" class="list-group-item">setting2</a>
+                <a href="#" class="list-group-item">setting3</a>
+            </div>
+        </div>
+
+            <!--  contents  -->
+            <div class="col-md-9">
+
+
+                <h1>login_page [ email | pw ]</h1>
+                <h3><%= test%></h3>
+                <p>issue - email send , email을 확인하는 절차</p>
+
+                <form method="post" action="/login">
+                    <label for="email"></label>
+                    <input type="email" id="email" name="u_email" placeholder="input email..." >
+                    <label for="pw"></label>
+                    <input type="password" id="pw" name="u_pw" placeholder="input pw..." >
+                    <input type="submit" value="login test" >
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <% include nav/footer.ejs %>
+</body>
+
+</html>

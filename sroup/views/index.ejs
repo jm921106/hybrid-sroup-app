@@ -1,0 +1,37 @@
+<!DOCTYPE html> <!-- ejs = 임베디드 자바 스크립트 -->
+<html>
+<head>
+    <title><%= title %></title> <!-- title 은 변수 - index.js에서 title을 지정 -->
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+
+<% include nav/header.ejs %>
+
+<h1><%= title %></h1>
+<p>I'm <%= name %>, Welcome to <%= title %></p>
+<p>투자금 : <%= money %>, </p>
+
+<p><%= jdata.workers%></p>
+
+<!-- local에서 json파일을 가져옴 -->
+<ul>
+    <% jdata.employees.forEach(function(item) {%>
+    <li><%= item.firstName%></li>
+    <%})%>
+</ul>
+
+<!-- json파일을 index.js에서 가져옴 -->
+<ul>
+    <% jd_index.employees.forEach(function(item){%>
+    <li><%= item.lastName%></li>
+    <%})%>
+</ul>
+
+<ul>
+    <% for(var i = 0; i < 5; i++) { %>
+    <li>hello node ! this is li tag</li>
+    <% } %>
+</ul>
+</body>
+</html>
