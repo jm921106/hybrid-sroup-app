@@ -2,11 +2,10 @@
  * Created by superMoon on 2016-07-19.
  */
 var mongoose = require('mongoose');
-
-var dbURI = 'mongodb://localhost/db';
+var dbURI = 'mongodb://localhost/sroup'; //MongoDB URI
 
 exports.connect = function() {
-    mongoose.connect(dbURI);
+    mongoose.connect(dbURI); // mongoose 모듈에 URI를 연결
 
     mongoose.connection.on('connected', function() {
         console.log('Succeed to connect DB : ' + dbURI);

@@ -4,7 +4,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var user = new Schema({
+var user = new Schema({ //user = mongoose 스키마 정의
     //object_id
     u_id : String,
     u_email : String,
@@ -13,4 +13,4 @@ var user = new Schema({
     u_date : Date
 });
 
-module.exports = mongoose.model('userTasks', user); // 'Task'로 user 스키마를 넘겨준다.
+module.exports = mongoose.model('userTasks', user); // 'userTasks'로 user 스키마를 넘겨준다.

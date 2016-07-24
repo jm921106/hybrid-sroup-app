@@ -4,6 +4,7 @@ var morgan = require('morgan');
 var compress = require('compression');
 var cookieParser = require('cookie-parser'); //cookie
 var bodyParser = require('body-parser'); // body parser
+var session = require('express-session');
 
 // route dir require
 var sroup_home = require('../app/routes/sroup_home');
@@ -25,9 +26,13 @@ module.exports = function () {
     app.use(cookieParser());
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(bodyParser.json());
-
     app.use(express.static(path.join(__dirname, '../public')));
-
+    // app.use(session({
+    //     saveUninitialized : true,
+    //     resave : true,
+    //     secret : config.sesionSecret
+    // }));
+    
     // get method가 넘어올 시...
     app.use('/', sroup_home);
     app.use('/sroup_home', sroup_home);

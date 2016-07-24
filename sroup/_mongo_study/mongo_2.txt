@@ -1,0 +1,92 @@
+mongodb의 인덱스 생성과 관리 & 사용자 관리
+
+[index 생성과 관리]
+db.emp.ensureIndex({eno:1}, {unique:true});
+
+db.emp.ensureIndex({job:-1});
+
+db.emp.getIndexes();
+
+db.system.indexes.find(); , 모든 인덱스를 확인
+
+db.emp.dropIndexes();
+db.emp.dropIndexes({eno:-1});
+db.runCommand({dropIndexes:'emp', index:{eno:-1}});
+
+db.emp.reIndex();
+db.runCommand({reIndex:'emp'});
+[mongoDB]
+    - mongo 에서 index의 대소문자는 엄격히 구분
+    - document 를 update할 때 해다 index key 만 변경되지만 변경되는 document크기가 기존 extent공간 크기보다 큰경우
+        extent공간으로 마이그레이션이 될 수 있기 때문에 성능저하가 발생할 수 있음( 충분한 extent 크기로 설계 )
+
+[index 종류]
+    Non Unique Index , 하나 또는 하나 이상의 중복값을 가진 field로 구성되는 index타입으로 가장 대표적인 balance tree index 구조
+        db.things.ensureIndex({"city":1});
+
+    Unique Index , index가 생성되는 field가 유일한 속성 값을 가진 index 타입
+        db.things.ensureIndex({fname:1, lname:1}, {unique:true});
+
+    Sparse Index , 하나 이상의 필드에 Null 값을 가진 데이터가 대부분이고 드물게 어떤 데이터를 값을 가지고 있는 경우에 생성하는 효율적
+        db.people.ensureIndex({title:1}, {sparse:true});
+
+    Background Index , 일반적으로 Index의 생성은 데이터베이스 전체의 성능 지연 현상을 유발시킬수 있음, background에 index를 생성할 수 있음
+        db.people.ensureIndex({idata:1}, {background: true});
+
+    Covered Index , 여러개의 Field 로 생성된 Index를 검색할 때 Index만의 검색 만으로도 조건을 만족하는 document를 추출할 수 있는 타입
+        db.users.ensureIndex({username:1, password:1, roles:1});
+
+    DropDups Index , 동일한 값이 여러 개 저장되어 있는 필드에 DropDups 사용하면 최초에 입력된 Document만 남기고 나머지 Document
+        db.people.ensureIndex({idata:1}, {dropdups:true});
+
+    GeoSpatial Index , 좌표로 구성되는 2차원 구조로 하나의 Collection에
+        좌표에 의해 구성되는 2차원 구조로 하나의 Collection에 하나의 2D Index를 생성할 수
+
+        for(var i=0; i<10; i++) {
+            db.square.insert({
+                pos: [i%10, Math.floor(i/10)]
+            });
+        }
+
+        db.square.ensureIndex({pos:"2D"})
+        db.square.find()
+
+[보안/인증방법]
+    OS 인증방법
+        -전형적인 인증 방식으로 MongoDB를 설치했던 O/S 계정의 권한으로 데이터 베이스에 접속
+        -MongoDB에서 해당 시스템의 IP-Address로 만 접속을 허용하는 Network 인증방식을 제공
+        ex > mongod --bind_ip 192.168.0.10
+
+   DB 인증방식
+        DBMS의 가장 보편적인 인증 방식으로 미리 사용자 계정과 암호를 생성한 뒤 이 계정명과 암호를 정확히 입력한 사용자 인증을 하는 방법
+
+        MongoDB를 접속시 DB인증 방식을 선택
+        ex > mongod --auth OR mongod --noauth , 데이터를 처리할때 사용하는 방식
+
+        Replica Sets 환경을 구현할 때 Primary Server
+
+   [사용자 종류와 생성]
+    use admin
+    db.addUser("system", "manager")
+
+    db.auth("system", "manager")
+
+    use mdb
+    db.addUser("scott", "tiger");
+
+    db.auth("scott", "tiger")
+
+    use admin
+    db.addUser("system", "m");
+    db.system.users.find();
+    db.removeUser("scott")
+
+    mongod --dbpath c:/test/db--auth
+
+    use mdb
+    show collections
+    db.auth("scott", "tiger") , login
+    show collections , 볼수있음
+
+    mongo --username scott --password tiger1 mdb
+

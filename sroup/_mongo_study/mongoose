@@ -1,0 +1,175 @@
+[몽구스 Mongoose]
+
+강력한 노드 ODM 모듈로 익스프레스 애플리케이션에 MongoDB지원을 추가
+
+몽구스는 엔티티를 모델링하기 위해 스키마를 사용
+
+
+[MongoDB에 연결]
+MongoDB에 연결하기 위해서, MongoDB 연결 URI를 사용할 필요가 있음
+MongoDB 연결 URI는 데이터베이스 인스턴스에 연결하는 방법을
+MongoDB 드라이버에게 알려주는 문자열 URI이다.
+MongoDB URI는 일반적으로 다음처럼 구성
+
+mongodb://username:password@hostname:port/database
+
+지역 인스턴스(localhost)에 연결하기 때문에 username과 password부분을 건너 뛰고
+다음 URI를 사용할 수 있음
+mongodb://localhost/mean-book
+
+config/express.js 구성 파일에 바로 이 연결 URI를 정의하고 다음처럼
+데이터베이스에 연결하기 위해 몽구스 모듈을 사용하는 방식이 가장 간단
+var uri = 'mongodb://localhost/mean-book';
+var db = require('mongoose').connect(uri);
+
+[save()를 사용한 새로운 사용자 생성] // controllers
+var User = require('mongoose').model('User');
+
+[create]
+export.create = function(req, res, next) {
+    var user = new User(req.body);
+
+    user.save(function(err) {
+        if(err) {
+            return next(err);
+        } else {
+            res.json(user);
+        }
+    });
+};
+
+[find]
+exports.list = function(req, res, next) {
+  User.find({}, function(err, users) {
+      if(err) {
+          return next(err);
+      } else {
+          res.json(users);
+      }
+});
+};
+
+[update]
+exports.update = function(req, res, next) {
+User.findByIdAndUpdate(req.user.id, req.body, function(err, user) {
+    if(err) {
+        return next(err);
+    } else {
+        res.json(user);
+    }
+});
+};
+
+[delete]
+exports.delete = function(req, res, next) {
+    req.user.remove(function(err) {
+        if(err) {
+            return next(err);
+        } else {
+            res.json(req.user);
+        }
+    });
+}
+
+
+[app/routes/users.server.controller.js]
+var users = requre('../../app/controllers/users.server.controller');
+module.exports = function(app) {
+  app.route('/user')
+  .post(users.create)
+  .get(users.list);
+
+  app.route('/users/:userId')
+  .get(users.read);
+  .put(users.update);
+  .delete(users.delete);
+
+  app.param('userId', users.userByID);
+};
+
+  [몽구스 스키마 확장]
+기본값 정의
+
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
+
+var UserSchema = new Schema({
+    firstName : String,
+    lastName : String,
+    email : String,
+    username : String,
+    password : String,
+    created : {
+        tppe : Date,
+        default : Date.now
+    }
+});
+mongoose,model('User', UserSchema);
+created 필드를 추가 기본값을 정의한 방식에 주목
+지금부터 새로운 사용자 다큐먼트는
+다큐먼트가 생성된 시점을 나타내는 기본값으로 생성될 것.
+또한 이 스키마 변경에 앞서 생성된 모든 사용자 다큐먼트도
+질의하는 시점을 나타내는 기본값으로 created필드를 채움
+
+[스키마 변경자 활용]
+미리 정의된 변경자
+trim - 공백 삭제
+uppercase - 대문자로 변경
+
+var mongoose = require('mongoose');
+    Schema = mongoose.Schema;
+
+var UserSchema = new Schema({
+    firstName : String,
+    lastName : String,
+    email : String,
+    username : {
+        type : String,
+        trim : true
+    },
+    password : String,
+    created : {
+        type : Date,
+        default : Date.noe
+    }
+});
+mongoose.model('User', UserSchema);
+
+맞춤식 설정 변경자
+var UserSchema = new Schema({
+    ...
+    website : {
+        type : String,
+        set : function(url) {
+            if(!url) { // url이 없다면 ?
+                return url;
+            } else {
+                if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
+                    url = 'http://' + url;
+                }
+                return url;
+            }
+        }
+    } //website
+});
+
+맞춤식 인출 변경자
+var UserSchema = new Schema ({
+    ...
+        website : {
+            type : String,
+            get : function(url) {
+                if(!url) { // url이 없다면 ?
+                    return url;
+                } else {
+                    if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
+                        url = 'http://' + url;
+                    }
+                    return url;
+                }
+            }
+        } //website
+})l
+UserSchema.set('toJSON', {getters:true});
+
+가상 속성 추가
